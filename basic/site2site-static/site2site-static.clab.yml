@@ -1,0 +1,34 @@
+name: site2site-static
+
+topology:
+  nodes:
+    srl1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+      startup-config: configs/srl1.cli
+    srl2:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+      startup-config: configs/srl2.cli
+    client1:
+      kind: linux
+      image: alpine:latest
+      exec:
+       - ip addr add 192.168.100.1/24 dev eth1
+       - ip link set eth1 up
+       - ip route replace default via 192.168.100.254 dev eth1
+    client2:
+      kind: linux
+      image: alpine:latest
+      exec:
+       - ip addr add 192.168.200.1/24 dev eth1
+       - ip link set eth1 up
+       - ip route replace default via 192.168.200.254 dev eth1
+      
+  links:
+    # <-> between 2 routers
+    - endpoints: ["srl1:e1-2", "srl2:e1-2"]
+    # <-> between router1 and client1
+    - endpoints: ["srl1:e1-1", "client1:eth1"]
+    # <-> between router2 and client2
+    - endpoints: ["srl2:e1-1", "client2:eth1"]
