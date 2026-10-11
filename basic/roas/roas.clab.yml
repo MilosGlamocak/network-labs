@@ -1,0 +1,40 @@
+name: roas
+
+topology:
+  nodes:
+    r1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+      startup-config: configs/r1.cli
+    sw1:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10
+      startup-config: configs/sw1.cli
+    host10:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 10.0.10.10/24 dev eth1
+        - ip route replace default via 10.0.10.1
+    host20:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 10.0.20.10/24 dev eth1
+        - ip route replace default via 10.0.20.1
+    host30:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - ip addr add 10.0.30.10/24 dev eth1
+        - ip route replace default via 10.0.30.1
+      
+  links:
+    # <-> between host10 and sw1
+    - endpoints: ["sw1:e1-2", "host10:eth1"]
+    # <-> between host20 and sw1
+    - endpoints: ["sw1:e1-3", "host20:eth1"]
+    # <-> between host30 and sw1
+    - endpoints: ["sw1:e1-4", "host30:eth1"]
+    # <-> between sw1 and r1
+    - endpoints: ["sw1:e1-1", "r1:e1-1"]

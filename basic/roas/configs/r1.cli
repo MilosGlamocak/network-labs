@@ -1,0 +1,21 @@
+set / network-instance default admin-state enable
+set / network-instance default interface ethernet-1/1.10
+set / network-instance default interface ethernet-1/1.20
+set / network-instance default interface ethernet-1/1.30
+set / interface ethernet-1/1 admin-state enable
+set / interface ethernet-1/1 vlan-tagging true
+set / interface ethernet-1/1 subinterface 10 type routed
+set / interface ethernet-1/1 subinterface 10 admin-state enable
+set / interface ethernet-1/1 subinterface 10 ipv4 admin-state enable
+set / interface ethernet-1/1 subinterface 10 ipv4 address 10.0.10.1/24
+set / interface ethernet-1/1 subinterface 10 vlan encap single-tagged vlan-id 10
+set / interface ethernet-1/1 subinterface 20 type routed
+set / interface ethernet-1/1 subinterface 20 admin-state enable
+set / interface ethernet-1/1 subinterface 20 ipv4 admin-state enable
+set / interface ethernet-1/1 subinterface 20 ipv4 address 10.0.20.1/24
+set / interface ethernet-1/1 subinterface 20 vlan encap single-tagged vlan-id 20
+set / interface ethernet-1/1 subinterface 30 type routed
+set / interface ethernet-1/1 subinterface 30 admin-state enable
+set / interface ethernet-1/1 subinterface 30 ipv4 admin-state enable
+set / interface ethernet-1/1 subinterface 30 ipv4 address 10.0.30.1/24
+set / interface ethernet-1/1 subinterface 30 vlan encap single-tagged vlan-id 30
